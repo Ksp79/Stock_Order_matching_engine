@@ -3,10 +3,20 @@
 using namespace std;
 
 void OrderBook::addOrder(const Order& order){
-    if(order.side == Side::Buy)
-    buyOrders.push_back(order);
-    else
-    sellOrders.push_back(order);
+    if(order.side == Side::Buy){
+        size_t i=0;
+        while(i< getBuyOrderCount() && buyOrders[i].Price >= order.Price){
+            i++;
+        }
+        buyOrders.insert(buyOrders.begin() + i, order);
+    }
+    else{
+        size_t i=0;
+        while(i < sellOrders.size() && sellOrders[i].Price <= order.Price){
+            i++;
+        }
+        sellOrders.insert(sellOrders.begin() + i, order);
+    }
 }
 
 void OrderBook::printBook() const{

@@ -1,4 +1,5 @@
 #include<iostream>
+#include <string>
 #include "MatchingEngine.h"
 #include<climits>
 using namespace std;
@@ -28,8 +29,8 @@ void MatchingEngine::printBook() const{
 
 int MatchingEngine::findBestSellOrder(const std::string& symbol, int buyPrice){
     OrderBook& currentOrderBook = orderBooks[symbol];
-    int bestIndex = -1;
-    int bestPrice = INT_MAX;
+    // int bestIndex = -1;
+    // int bestPrice = INT_MAX;
     //const vector<Order>& sellOrders = orderBook.getSellOrders();
 
     // for(size_t i=0; i<sellOrders.size(); i++){
@@ -40,39 +41,56 @@ int MatchingEngine::findBestSellOrder(const std::string& symbol, int buyPrice){
     //     }
     // }
 
-    for(size_t i=0; i<currentOrderBook.getSellOrderCount(); i++){
+//We don't need to use the below one since the vector is already sorted
+    // for(size_t i=0; i<currentOrderBook.getSellOrderCount(); i++){
 
-        Order& currentOrder = currentOrderBook.getSellOrder(i);
+    //     Order& currentOrder = currentOrderBook.getSellOrder(i);
 
-        if(currentOrder.Price <= buyPrice && 
-           currentOrder.Price < bestPrice){
+    //     if(currentOrder.Price <= buyPrice && 
+    //        currentOrder.Price < bestPrice){
 
-            bestPrice = currentOrder.Price;
-            bestIndex = i;
-        }
-    }
+    //         bestPrice = currentOrder.Price;
+    //         bestIndex = i;
+    //     }
+    // }
 
-    return bestIndex;
+    // return bestIndex;
+
+    if(currentOrderBook.getSellOrderCount() == 0)
+    return -1;
+
+    if(currentOrderBook.getSellOrder(0).Price > buyPrice)
+    return -1;
+
+    return 0;
 }
 
 int MatchingEngine::findBestBuyOrder(const std::string& symbol, int sellPrice){
     OrderBook& currentOrderBook = orderBooks[symbol];
-    int bestIndex = -1;
-    int bestPrice = INT_MIN;
+    // int bestIndex = -1;
+    // int bestPrice = INT_MIN;
 
-    for(size_t i=0; i<currentOrderBook.getBuyOrderCount(); i++){
+    // for(size_t i=0; i<currentOrderBook.getBuyOrderCount(); i++){
 
-        Order& currentOrder = currentOrderBook.getBuyOrder(i);
+    //     Order& currentOrder = currentOrderBook.getBuyOrder(i);
 
-        if(currentOrder.Price >= sellPrice && 
-           currentOrder.Price > bestPrice){
+    //     if(currentOrder.Price >= sellPrice && 
+    //        currentOrder.Price > bestPrice){
             
-            bestIndex = i;
-            bestPrice = currentOrder.Price;
-        }
-    }
+    //         bestIndex = i;
+    //         bestPrice = currentOrder.Price;
+    //     }
+    // }
 
-    return bestIndex;
+    // return bestIndex;
+
+    if(currentOrderBook.getBuyOrderCount()==0)
+    return -1;
+
+    if(currentOrderBook.getBuyOrder(0).Price < sellPrice)
+    return -1;
+
+    return 0;
 }
 
 void MatchingEngine::matchBuyOrder(Order& order){
@@ -119,7 +137,7 @@ void MatchingEngine::matchSellOrder(Order& order){
         cout<<"\n===== TRADE EXECUTED =====\n";
         cout<<"Buyer ID: "<<buyer.OrderID<<'\n';
         cout<<"Seller ID: "<<order.OrderID<<'\n';
-        cout<<"Price: "<<order.Price<<'\n';
+        cout<<"Price: "<<buyer.Price<<'\n';
         cout<<"Quantity: "<<tradeQuantity<<"\n\n";
 
         if(buyer.Quantity == 0)

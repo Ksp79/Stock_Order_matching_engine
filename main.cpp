@@ -1,17 +1,17 @@
-#include<bits/stdc++.h>
+#include <iostream>
 #include "MatchingEngine.h"
+
 using namespace std;
 
-int main(){
+int main()
+{
     MatchingEngine engine;
 
-    // AAPL Orders
-    engine.processOrder(Order(1, "AAPL", Side::Sell, 181, 50));
-    engine.processOrder(Order(2, "AAPL", Side::Buy, 185, 20));
+    engine.processOrder(Order(1, "AAPL", Side::Buy, 190, 20));
+    engine.processOrder(Order(2, "AAPL", Side::Buy, 190, 20));
 
-    // TSLA Orders
-    engine.processOrder(Order(3, "TSLA", Side::Sell, 250, 40));
-    engine.processOrder(Order(4, "TSLA", Side::Buy, 255, 10));
+    // Incoming sell order
+    engine.processOrder(Order(3, "AAPL", Side::Sell, 185, 30));
 
     engine.printBook();
 
